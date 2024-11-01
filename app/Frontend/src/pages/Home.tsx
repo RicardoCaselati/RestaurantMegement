@@ -26,13 +26,19 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    console.log(usuario, senha);
+    console.log("cliquei");
+    if (!usuario || !senha) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+
     try {
       const response = await axios.post("http://localhost:3001/login/", {
-        usuario: usuario,
-        senha: senha,
+        usuario,
+        senha,
       });
-      if (response.data.data.success === true) {
+
+      if (response.data.data.success) {
         console.log("Login bem-sucedido");
 
         const modalElement = document.getElementById("loginModal");
@@ -44,7 +50,7 @@ const Home = () => {
 
         navigate("/hub");
       } else {
-        console.log("Dados de login inválidos");
+        alert("Dados de login inválidos");
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -55,28 +61,35 @@ const Home = () => {
     }
   };
 
-  // const handleClose = () => {
-  //   console.log("Close clicked");
-  // };
+  const handleClose = () => {
+    console.log("Close clicked");
+  };
 
-  const credentials = () => {
-    return (
-      <div>
-        <ChaoText>Insira seus dados de Login</ChaoText>
-        <ChaoText>
-          Usuário
+  const credentials = () => (
+    <div>
+      <ChaoText>Insira seus dados de Login</ChaoText>
+      <ChaoText>
+        Usuário
+        <span>
           <ChaoInput
+            type="text"
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
           />
-        </ChaoText>
-        <ChaoText>
-          Senha
-          <ChaoInput value={senha} onChange={(e) => setSenha(e.target.value)} />
-        </ChaoText>
-      </div>
-    );
-  };
+        </span>
+      </ChaoText>
+      <ChaoText>
+        Senha
+        <span>
+          <ChaoInput
+            type="password"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
+        </span>
+      </ChaoText>
+    </div>
+  );
 
   const modalProps: ModalProps = {
     id: "loginModal",
@@ -84,7 +97,7 @@ const Home = () => {
     content: credentials(),
     bottom1: "Close",
     bottom2: "Login",
-    // onBottom1Click: handleClose,
+    onBottom1Click: handleClose,
     onBottom2Click: handleLogin,
   };
 
@@ -102,7 +115,7 @@ const Home = () => {
   return (
     <>
       <ChaoHeader obj1={modalProps} obj2={loginButton} />
-      <ChaoModal />
+      <ChaoModal {...modalProps} />
       <section
         style={{ backgroundColor: "#000000" }}
         className={"container-fluid"}
@@ -142,7 +155,9 @@ const Home = () => {
         <ChaoTitle style={{ color: "#454545" }}>
           Horário de atendimento
         </ChaoTitle>
-        <ChaoText>Apenas no horário de almoço</ChaoText>
+        <ChaoText style={{ fontSize: "18px", paddingLeft: "20px" }}>
+          Apenas no horário de almoço
+        </ChaoText>
         <div className="row">
           <div className={"col-12 col-md-6 text-center"}>
             <ChaoText style={{ fontSize: "20px" }}>SEGUNDA A SEXTA</ChaoText>

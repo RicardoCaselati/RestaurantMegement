@@ -1,43 +1,25 @@
 import { log } from 'console';
 import { Request, Response } from 'express';
-const manufacturersService = require('../service/ManufacturersService');
+import { createManufacturersService, getAllManufacturersService, deleteManufacturersService } from '../service/Manufacturers.service';
 
 // Controlador para criar uma nova empresa
 export const createManufacturersController = async (req: Request, res: Response) => {
-    try {
-      // return res.status(200).json({ message: "Rota de criação de empresa funcionando" });
-       // Coletar os dados da empresa a partir do corpo da requisição
-    const companyData = req.body;
-
-    console.log("oi, company controller", companyData)
-
-    // Chamar o serviço para criar a empresa
-    const newCompany = await manufacturersService.createCompanyService(companyData);
-
-    // Retornar a resposta de sucesso com a empresa criada
+  try {
+    const manufacturerData = req.body;
+    const newManufacturer = await createManufacturersService(manufacturerData);
     return res.status(201).json({
-      message: 'Empresa criada com sucesso!',
-      data: newCompany
+      message: 'Fabricante criado com sucesso!',
+      data: newManufacturer,
     });
-    } catch (error) {
-      return res.status(500).json({ message: 'Erro no servidor', error });
-    }
-  
-  // const empresaData = req.body;
-
-  // const {success, message} = await manufacturersService.createmanufacturersService(empresaData);
-
-  // if (success) {
-  //   return res.status(201).json({ message: 'Empresa cadastrada com sucesso' });
-  // } else {
-  //   return res.status(500).json({ message: message || 'Falha ao cadastrar empresa' });
-  // }
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro no servidor', error });
+  }
 };
 
 // Controlador para buscar todas as empresas
 export const getAllManufacturersController = async (req: Request, res: Response) => {
   try {
-    const empresas = await manufacturersService.getAllEmpresasService();
+    const empresas = await getAllManufacturersService();
     console.log("controller", empresas)
     res.status(200).json(empresas);
   } catch (error) {
@@ -71,7 +53,7 @@ export const getAllManufacturersController = async (req: Request, res: Response)
 // Controlador para excluir logicamente uma empresa
 export const deleteManufacturersController = async (req: Request, res: Response) => {
   try {
-    await manufacturersService.deleteEmpresaService(req.body.id);
+    await deleteManufacturersService(req.body.id);
     res.status(200).json({ message: 'Empresa excluída com sucesso' });
   } catch (error) {
     res.status(500).json({ error: error});

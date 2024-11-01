@@ -19,31 +19,32 @@ const ManufacturesManager = () => {
     navigate("/createManufacturers", { state: { company: null } });
   };
 
-  useEffect(() => {
-    const getMarketsRegistered = async () => {
-      try {
-        const url = "http://localhost:3001/manufacturers/list";
-        const response = await axios.get(url);
+  const getManufacturers = async () => {
+    try {
+      const url = "http://localhost:3001/manufacturers/list";
+      const response = await axios.get(url);
 
-        if (response.status === 200) {
-          console.log("Mercados listados com sucesso");
+      if (response.status === 200) {
+        console.log("Mercados listados com sucesso");
 
-          setRegisteredManufacturers(response.data);
-        } else {
-          console.log("Não foi possível listar os mercados.");
-        }
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error(
-            "Erro na requisição Axios:",
-            error.response?.data || error.message,
-          );
-        } else {
-          console.error("Erro inesperado:", error);
-        }
+        setRegisteredManufacturers(response.data);
+      } else {
+        console.log("Não foi possível listar os mercados.");
       }
-    };
-    getMarketsRegistered();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "Erro na requisição Axios:",
+          error.response?.data || error.message,
+        );
+      } else {
+        console.error("Erro inesperado:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getManufacturers();
   }, [deleteManufacturers]);
 
   return (

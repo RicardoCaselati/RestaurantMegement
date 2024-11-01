@@ -1,21 +1,14 @@
 const Manufacturers = require('../model/Manufacturers.model');
 import {ManufacturersData} from '../Interface/Manufacturers.interface';
 
-
-
-// Função para criar uma nova empresa
-export const createManufacturersService = async (empresaData: ManufacturersData): Promise<{ success: boolean, message?: string }> => {
+export const createManufacturersService = async (manufacturerData: ManufacturersData): Promise<{ success: boolean, message?: string }> => {
   try {
-    console.log("oi, company service")
-    const empresa = new Manufacturers(empresaData);
-    await empresa.save();
+    const manufacturer = new Manufacturers(manufacturerData);
+    await manufacturer.save();
     return { success: true };
   } catch (error) {
-    console.error('Erro ao cadastrar empresa:', error);
-    if (error instanceof Error) {
-      return { success: false, message: error.message };
-    }
-    return { success: false, message: 'Ocorreu um erro desconhecido ao cadastrar uma empresa. Func: createCompanyService' };
+    console.error('Erro ao cadastrar fabricante:', error);
+    return { success: false, message: error instanceof Error ? error.message : 'Erro desconhecido' };
   }
 };
 
@@ -36,7 +29,7 @@ export const getAllManufacturersService = async () => {
 // };
 
 // Função para excluir (logicamente) uma empresa
-const deleteManufacturersService = async (id: number) => {
+export const deleteManufacturersService = async (id: number) => {
   return await Manufacturers.findByIdAndUpdate(id, { excluido_em: new Date() });
 };
 
@@ -45,8 +38,8 @@ const deleteManufacturersService = async (id: number) => {
 //   updateEmpresaService,
 // };
 
-module.exports = {
-    createManufacturersService,
-    getAllManufacturersService,
-    deleteManufacturersService
-};
+// module.exports = {
+//     createManufacturersService,
+//     getAllManufacturersService,
+//     deleteManufacturersService
+// };

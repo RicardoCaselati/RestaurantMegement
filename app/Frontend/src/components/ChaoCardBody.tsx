@@ -21,7 +21,7 @@ const ChaoCardBody: React.FC<ChaoCardBodyInterface> = ({
     try {
       const response = await axios.post(
         "http://localhost:3001/company/delete",
-        { id: company._id }, // Usando company._id para exclusão
+        { id: company._id },
       );
       if (response.status === 200) {
         setDeletesCompany((prev) => !prev);
@@ -59,11 +59,11 @@ const ChaoCardBody: React.FC<ChaoCardBodyInterface> = ({
           <ChaoButton
             text={"Editar"}
             className={"btn-info"}
-            onClick={handleEditCompany} // Corrigido para não passar company diretamente
+            onClick={handleEditCompany}
           />
           <ChaoButton
             text={"Excluir"}
-            onClick={handleExclude} // Atualizando a função para não precisar de argumento
+            onClick={handleExclude}
             className={"btn-danger"}
           />
         </div>

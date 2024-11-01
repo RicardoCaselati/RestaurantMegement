@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import loginRouter from './Login.router';
 import companyRouter from './Company.router';
+import manufacturersRouter from './Manufacturers.router';
 import peopleRouter from './User.router';
 
 const routes = Router();
@@ -17,7 +18,7 @@ routes.use('/login', loginRouter);
 routes.use('/company', companyRouter);
 
 // Rotas Manufacturers (Fabricantes)
-routes.use('/manufacturers', companyRouter);
+routes.use('/manufacturers', manufacturersRouter);
 
 // Rotas Shopping Lists (Lista de Compras)
 routes.use('/shopping-lists', companyRouter);
