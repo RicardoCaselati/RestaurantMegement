@@ -95,6 +95,7 @@ const CreateCompanyMarket = () => {
           <ChaoText>
             CNPJ
             <ChaoInput
+              type="text"
               value={cnpj}
               onChange={(e) => setCnpj(e.target.value)}
               style={{ width: "90%" }}
@@ -103,6 +104,7 @@ const CreateCompanyMarket = () => {
           <ChaoText>
             Razão Social
             <ChaoInput
+              type="text"
               value={razaoSocial}
               onChange={(e) => setRazaoSocial(e.target.value)}
               style={{ width: "90%" }}
@@ -111,6 +113,7 @@ const CreateCompanyMarket = () => {
           <ChaoText>
             Nome Fantasia
             <ChaoInput
+              type="text"
               value={nomeFantasia}
               onChange={(e) => setNomeFantasia(e.target.value)}
               style={{ width: "90%" }}
@@ -119,6 +122,7 @@ const CreateCompanyMarket = () => {
           <ChaoText>
             Logradouro
             <ChaoInput
+              type="text"
               value={logradouro}
               onChange={(e) => setLogradouro(e.target.value)}
               style={{ width: "90%" }}
@@ -127,6 +131,7 @@ const CreateCompanyMarket = () => {
           <ChaoText>
             Número
             <ChaoInput
+              type="text"
               value={numero}
               onChange={(e) => setNumero(e.target.value)}
               style={{ width: "90%" }}
@@ -135,6 +140,7 @@ const CreateCompanyMarket = () => {
           <ChaoText>
             Complemento
             <ChaoInput
+              type="text"
               value={complemento}
               onChange={(e) => setComplemento(e.target.value)}
               style={{ width: "90%" }}
@@ -143,6 +149,7 @@ const CreateCompanyMarket = () => {
           <ChaoText>
             Bairro
             <ChaoInput
+              type="text"
               value={bairro}
               onChange={(e) => setBairro(e.target.value)}
               style={{ width: "90%" }}

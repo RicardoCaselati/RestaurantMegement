@@ -6,7 +6,6 @@ import {EmpresaData} from '../Interface/Company.interface';
 // Função para criar uma nova empresa
 export const createCompanyService = async (empresaData: EmpresaData): Promise<{ success: boolean, message?: string }> => {
   try {
-    console.log("oi, company service")
     const empresa = new Empresa(empresaData);
     await empresa.save();
     return { success: true };

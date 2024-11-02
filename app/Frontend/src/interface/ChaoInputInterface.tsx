@@ -1,6 +1,9 @@
 export interface ChaoInputProps {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  id?: string;
+  type: string;
+  value?: string | number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   style?: React.CSSProperties;
   className?: string;
+  name?: string;
 }

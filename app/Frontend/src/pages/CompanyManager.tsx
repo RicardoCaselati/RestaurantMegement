@@ -18,32 +18,32 @@ const CompanyManager = () => {
     navigate("/createMarket", { state: { company: null } });
   };
 
-  useEffect(() => {
-    const getMarketsRegistered = async () => {
-      try {
-        const url = "http://localhost:3001/company/list";
-        const response = await axios.get(url);
+  const getCompanies = async () => {
+    try {
+      const url = "http://localhost:3001/company/list";
+      const response = await axios.get(url);
 
-        if (response.status === 200) {
-          console.log("Mercados listados com sucesso");
+      if (response.status === 200) {
+        console.log("Mercados listados com sucesso");
 
-          setRegisteredCompanies(response.data);
-        } else {
-          console.log("Não foi possível listar os mercados.");
-        }
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error(
-            "Erro na requisição Axios:",
-            error.response?.data || error.message,
-          );
-        } else {
-          console.error("Erro inesperado:", error);
-        }
+        setRegisteredCompanies(response.data);
+      } else {
+        console.log("Não foi possível listar os mercados.");
       }
-    };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "Erro na requisição Axios:",
+          error.response?.data || error.message,
+        );
+      } else {
+        console.error("Erro inesperado:", error);
+      }
+    }
+  };
 
-    getMarketsRegistered();
+  useEffect(() => {
+    getCompanies();
   }, [deletesCompany]);
 
   return (

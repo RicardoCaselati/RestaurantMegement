@@ -1,28 +1,43 @@
-// import ChaoDropdown from "./ChaoDropdown";
-// // import ChaoInput from "./ChaoInput";
-// import ChaoText from "./ChaoText";
+import ChaoInput from "./ChaoInput";
+import ChaoText from "./ChaoText";
+import { ChaoListItemInterface } from "../interface/ChaoListItemInterface";
 
-// const ChaoListItem = () => {
-//   return (
-//     <div className="d-flex col-12" style={{ padding: "20px" }}>
-//       <ChaoText className="col-3">
-//         Fabricante:
-//         <ChaoDropdown />
-//       </ChaoText>
-//       <ChaoText className="col-3">
-//         Valor por Und.:
-//         {/* <ChaoInput /> */}
-//       </ChaoText>
-//       <ChaoText className="col-3">
-//         Qtd.:
-//         {/* <ChaoInput /> */}
-//       </ChaoText>
-//       <ChaoText className="col-3">
-//         Último preço:
-//         {/* <ChaoText style={{ backgroundColor: "grey" }}>Some Price</ChaoText> */}
-//       </ChaoText>
-//     </div>
-//   );
-// };
+const ChaoListItem: React.FC<ChaoListItemInterface> = ({
+  item,
+  onChange,
+  fabricanteDropdown,
+}) => {
+  const handleChange =
+    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      onChange(field, e.target.value);
+    };
 
-// export default ChaoListItem;
+  return (
+    <div className="d-xl-flex" style={{ padding: "20px" }}>
+      <div className="row align-items-center">
+        <div className="col-xl-2">
+          <ChaoText>
+            Fabricante:
+            {fabricanteDropdown}
+          </ChaoText>
+        </div>
+
+        {Object.keys(item).map((field) => (
+          <div className="col-xl-2" key={field}>
+            <ChaoText>
+              {field}:
+              <ChaoInput
+                type="text"
+                value={item[field]}
+                onChange={handleChange(field)}
+                style={{ width: "80%" }}
+              />
+            </ChaoText>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ChaoListItem;
