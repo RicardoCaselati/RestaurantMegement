@@ -1,25 +1,34 @@
 import React, { useState } from "react";
-import { ChaoDropdownProps } from "../interface/ChaoDropdownInterface";
+import { ChaoDropdownInterface } from "../interface/ChaoDropdownInterface";
 
-const ChaoDropdown: React.FC<ChaoDropdownProps> = ({
+const ChaoDropdown: React.FC<ChaoDropdownInterface> = ({
   arrayList = [],
   style,
   title,
+  onSelect,
 }) => {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
+
+  const handleSelect = (item: { id: string; nome_fantasia: string }) => {
+    setSelectedItem(item.nome_fantasia);
+    if (onSelect) {
+      onSelect(item.id);
+    }
+  };
 
   const newListRender = () => {
     if (!Array.isArray(arrayList)) {
       return <div>Carregando...</div>;
     }
+
     return arrayList.map((eachList, index) => (
       <li key={index}>
         <button
           className="dropdown-item"
           type="button"
-          onClick={() => setSelectedItem(eachList)}
+          onClick={() => handleSelect(eachList)}
         >
-          {typeof eachList === "string" ? eachList : "Item inválido"}
+          {eachList.nome_fantasia || "Item inválido"}
         </button>
       </li>
     ));

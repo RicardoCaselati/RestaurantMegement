@@ -26,8 +26,7 @@ const CompanyManager = () => {
       if (response.status === 200) {
         console.log("Mercados listados com sucesso");
 
-        console.log("🚀 ~ getCompanies ~ response.data:", response.data);
-        // setRegisteredCompanies(response.data);
+        setRegisteredCompanies(response.data);
       } else {
         console.log("Não foi possível listar os mercados.");
       }

@@ -13,24 +13,37 @@ import ChaoListItem from "../components/ChaoListItem";
 const CreateShoppingList = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const companyToEdit = location.state?.company || null;
 
-  const [mercado, setMercado] = useState(companyToEdit?.cnpj || "");
-  const [dataCompra, setDataCompra] = useState(companyToEdit?.razao_social || "");
-  const [purchaseDate, setPurchaseDate] = useState("");
-  const [arrayList, setArrayList] = useState([""]);
+
+  const [mercado, setMercado] = useState("");
+  const [dataCompra, setDataCompra] = useState("");
+  const [companiesList, setCompaniesList] = useState<
+    { id: string; nome_fantasia: string }[]
+  >([]);
+  const [manufacturersList, setManufacturersList] = useState<
+    { id: string; nome_fantasia: string }[]
+  >([]);
   const [items, setItems] = useState([
-    { nomeProduto: "", quantidade: "", valorUnidade: "", valorTotal: "" },
+    {
+      fabricanteId: "",
+      nomeProduto: "",
+      quantidade: "",
+      valorUnidade: "",
+      valorTotal: "",
+    },
   ]);
 
   const objSend = {
     mercado,
     data_compra: dataCompra,
-    items,
+    items: items.map((item) => ({
+      ...item,
+      fabricante: item.fabricanteId,
+    })),
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPurchaseDate(e.target.value);
+    setDataCompra(e.target.value);
   };
 
   const handleItemChange = (index, field, value) => {
@@ -41,53 +54,92 @@ const CreateShoppingList = () => {
   };
 
   const handleAdicionar = () => {
-    setItems([...items, { nomeProduto: "", quantidade: "", valorUnidade: "", valorTotal: "" }]);
+    setItems([
+      ...items,
+      {
+        fabricanteId: "",
+        nomeProduto: "",
+        quantidade: "",
+        valorUnidade: "",
+        valorTotal: "",
+      },
+    ]);
   };
 
   const handleSalvar = async () => {
-    const url = companyToEdit
-      ? `http://localhost:3001/manufacturers/update/${companyToEdit._id}`
-      : "http://localhost:3001/manufacturers/create";
+    console.log("🚀 ~ handleSal ~ objSend:", objSend);
+    // const url = companyToEdit
+    //   ? `http://localhost:3001/manufacturers/update/${companyToEdit._id}`
+    //   : "http://localhost:3001/manufacturers/create";
 
-    try {
-      const response = await axios.post(url, objSend);
-      if (response.data.data.success) {
-        console.log("Fornecedor salvo com sucesso");
-      } else {
-        console.log("Dados de fornecedor inválidos");
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Erro na requisição Axios:", error.response?.data);
-      } else {
-        console.error("Erro inesperado:", error);
-      }
-    }
+    // try {
+    //   const response = await axios.post(url, objSend);
+    //   if (response.data.data.success) {
+    //     console.log("Fornecedor salvo com sucesso");
+    //   } else {
+    //     console.log("Dados de fornecedor inválidos");
+    //   }
+    // } catch (error) {
+    //   if (axios.isAxiosError(error)) {
+    //     console.error("Erro na requisição Axios:", error.response?.data);
+    //   } else {
+    //     console.error("Erro inesperado:", error);
+    //   }
+    // }
   };
 
   const handleVoltar = () => {
     navigate("/shopping-lists");
   };
 
-  useEffect(() => {
-    const getCompanies = async () => {
-      try {
-        const url = "http://localhost:3001/company/list";
-        const response = await axios.get(url);
-        if (response.status === 200) {
-          const manufacturers = response.data.map(
-            (eachItem) => eachItem.nome_fantasia
-          );
-          setArrayList(manufacturers);
-        } else {
-          console.log("Não foi possível listar os mercados.");
-        }
-      } catch (error) {
-        console.error("Erro inesperado:", error);
+  const getCompanies = async () => {
+    try {
+      const url = "http://localhost:3001/company/list";
+      const response = await axios.get(url);
+      if (response.status === 200) {
+        const companies = response.data.map((eachItem) => ({
+          id: eachItem._id,
+          nome_fantasia: eachItem.nome_fantasia,
+        }));
+        setCompaniesList(companies);
+      } else {
+        console.log("Não foi possível listar os mercados.");
       }
-    };
+    } catch (error) {
+      console.error("Erro inesperado:", error);
+    }
+  };
+
+  const getManufacturers = async () => {
+    try {
+      const url = "http://localhost:3001/manufacturers/list";
+      const response = await axios.get(url);
+      if (response.status === 200) {
+        const manufacturers = response.data.map((eachItem) => ({
+          id: eachItem._id,
+          nome_fantasia: eachItem.nome_fantasia,
+        }));
+        setManufacturersList(manufacturers);
+      } else {
+        console.log("Não foi possível listar os fabricantes.");
+      }
+    } catch (error) {
+      console.error("Erro inesperado:", error);
+    }
+  };
+
+  useEffect(() => {
     getCompanies();
+    getManufacturers();
   }, []);
+
+  const fabricanteDropdown = (index) => (
+    <ChaoDropdown
+      arrayList={manufacturersList}
+      onSelect={(id) => handleItemChange(index, "fabricanteId", id)}
+      title="Selecione"
+    />
+  );
 
   return (
     <>
@@ -119,16 +171,20 @@ const CreateShoppingList = () => {
             <div className="d-flex justify-content-around">
               <ChaoText>
                 Mercado:
-                <ChaoDropdown arrayList={arrayList} title="Selecione" />
+                <ChaoDropdown
+                  arrayList={companiesList}
+                  title="Selecione"
+                  onSelect={setMercado}
+                />
               </ChaoText>
               <ChaoText>
                 Data da Compra:
                 <ChaoInput
                   type="date"
                   className="form-control"
-                  id="purchaseDate"
-                  name="purchaseDate"
-                  value={purchaseDate}
+                  id="dataCompra"
+                  name="dataCompra"
+                  value={dataCompra}
                   onChange={handleDateChange}
                 />
               </ChaoText>
@@ -142,14 +198,17 @@ const CreateShoppingList = () => {
             />
           </div>
           <div className={"col-lg-10"}>
-            {items.map((item, index) => (
-              <ChaoListItem
-                key={index}
-                index={index}
-                item={item}
-                onItemChange={handleItemChange}
-              />
-            ))}
+            {items.map((item, index) => {
+              const { fabricanteId, ...itemWithoutFabricante } = item;
+              return (
+                <ChaoListItem
+                  key={index}
+                  item={itemWithoutFabricante}
+                  onChange={(field, value) => handleItemChange(index, field, value)}
+                  fabricanteDropdown={fabricanteDropdown(index)}
+                />
+              );
+            })}
           </div>
           <div className={"col-lg-10"}>
             <div
