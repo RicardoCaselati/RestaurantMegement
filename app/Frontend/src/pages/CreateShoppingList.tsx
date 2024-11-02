@@ -14,7 +14,6 @@ const CreateShoppingList = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-
   const [mercado, setMercado] = useState("");
   const [dataCompra, setDataCompra] = useState("");
   const [companiesList, setCompaniesList] = useState<
