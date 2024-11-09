@@ -1,8 +1,6 @@
 const Empresa = require('../model/Company.model');
 import {EmpresaData} from '../Interface/Company.interface';
 
-
-
 // Função para criar uma nova empresa
 export const createCompanyService = async (empresaData: EmpresaData): Promise<{ success: boolean, message?: string }> => {
   try {

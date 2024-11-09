@@ -37,7 +37,7 @@ const CreateShoppingList = () => {
     data_compra: dataCompra,
     items: items.map((item) => ({
       ...item,
-      fabricante: item.fabricanteId,
+      fabricanteId: item.fabricanteId,
     })),
   };
 
@@ -66,25 +66,27 @@ const CreateShoppingList = () => {
   };
 
   const handleSalvar = async () => {
-    console.log("🚀 ~ handleSal ~ objSend:", objSend);
     // const url = companyToEdit
-    //   ? `http://localhost:3001/manufacturers/update/${companyToEdit._id}`
-    //   : "http://localhost:3001/manufacturers/create";
+    //   ? `http://localhost:3001/shopping-lists/update/${companyToEdit._id}`
+    //   : "http://localhost:3001/shopping-lists/create";
 
-    // try {
-    //   const response = await axios.post(url, objSend);
-    //   if (response.data.data.success) {
-    //     console.log("Fornecedor salvo com sucesso");
-    //   } else {
-    //     console.log("Dados de fornecedor inválidos");
-    //   }
-    // } catch (error) {
-    //   if (axios.isAxiosError(error)) {
-    //     console.error("Erro na requisição Axios:", error.response?.data);
-    //   } else {
-    //     console.error("Erro inesperado:", error);
-    //   }
-    // }
+    const url = "http://localhost:3001/shopping-lists/create";
+
+    try {
+      const response = await axios.post(url, objSend);
+      if (response.data.data.success) {
+        console.log("Lista de compras salva com sucesso");
+        navigate("/shopping-lists");
+      } else {
+        console.log("Lista de compras inválida");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Erro na requisição Axios:", error.response?.data);
+      } else {
+        console.error("Erro inesperado:", error);
+      }
+    }
   };
 
   const handleVoltar = () => {
@@ -203,7 +205,9 @@ const CreateShoppingList = () => {
                 <ChaoListItem
                   key={index}
                   item={itemWithoutFabricante}
-                  onChange={(field, value) => handleItemChange(index, field, value)}
+                  onChange={(field, value) =>
+                    handleItemChange(index, field, value)
+                  }
                   fabricanteDropdown={fabricanteDropdown(index)}
                 />
               );

@@ -1,7 +1,11 @@
-import * as express from 'express';
+import express = require('express');
 import { Request, Response, NextFunction } from 'express';
 import routes from './database/routes/router';
+import { AppDataSource } from "./data-source";
+import { EstoqueIngrediente } from "./database/model/Ingredientes.model";
 import mongoose from 'mongoose';
+
+import "reflect-metadata";
 
 class App {
   public app: express.Express;
@@ -9,9 +13,6 @@ class App {
   constructor() {
     this.app = express();
     this.config();
-    
-    // Não remover essa rota
-    this.app.get('/', (req: Request, res: Response) => res.json({ ok: true }));
   }
 
   // Configurações da aplicação
@@ -26,29 +27,31 @@ class App {
     this.app.use(express.json());
     this.app.use(accessControl);
 
-    // Use as rotas definidas no arquivo de rotas
-    this.app.use('/', routes);  // Adicionando um prefixo para rotas
+    this.app.use('/', routes);
   }
 
-  // Método para conectar ao MongoDB e iniciar o servidor
+  // Método para iniciar o servidor
   public async start(PORT: string | number): Promise<void> {
     try {
-      // Conexão ao MongoDB com autenticação
-      const mongoUri = process.env.MONGO_URI || 'mongodb://root:example@mongo:27017/sistema?authSource=admin'; 
+      // Conexão com o MySQL usando TypeORM
+      await AppDataSource.initialize();
+      console.log('Conectado ao banco de dados MySQL com sucesso!');
+
+      // Conexão com o MongoDB
+      const mongoUri = process.env.MONGO_URI || 'mongodb://root:example@mongo:27017/mydatabase?authSource=admin';
       await mongoose.connect(mongoUri);
       console.log('Conectado ao MongoDB');
-  
+
       // Iniciando o servidor Express
       this.app.listen(PORT, () => {
         console.log(`Servidor rodando na porta ${PORT}`);
       });
-  
+      
     } catch (error) {
-      console.error('Erro ao conectar ao MongoDB', error);
+      console.error('Erro ao conectar ao banco de dados', error);
       process.exit(1);  // Encerra o processo se a conexão falhar
     }
   }
-  
 }
 
 export default App;

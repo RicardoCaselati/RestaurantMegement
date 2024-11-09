@@ -8,7 +8,7 @@ import ChaoTitle from "./ChaoTitle";
 
 const ChaoCardBody: React.FC<ChaoCardBodyInterface> = ({
   id,
-  company, // Usar a propriedade company
+  company,
   setDeletesCompany,
 }) => {
   const navigate = useNavigate();
