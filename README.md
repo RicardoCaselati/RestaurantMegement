@@ -28,8 +28,8 @@ Before running this project, ensure you have:
 ## Getting Started
 1. Clone the Repository:
 ```
-git clone https://github.com/your-username/chao-goiano-crm.git
-cd chao-goiano-crm
+git clone git@github.com:RicardoCaselati/RestaurantMegement.git
+cd RestaurantMegement
 ```
 
 2. Start the Application:
