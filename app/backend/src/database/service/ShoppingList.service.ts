@@ -25,8 +25,6 @@ export const getAllShoppingListsService = async () => {
     }
 };
 
-  
-
 module.exports = {
     getAllShoppingListsService,
     // getAllEmpresasController,

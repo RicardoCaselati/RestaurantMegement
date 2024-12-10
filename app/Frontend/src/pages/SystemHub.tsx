@@ -10,6 +10,7 @@ const SystemHub = () => {
         <ChaoMenu
           itens={[
             "Home",
+            "Receitas",
             "Mercados",
             "Fabricantes",
             "Lista de Compras",
@@ -19,6 +20,7 @@ const SystemHub = () => {
           ]}
           routes={[
             "/hub",
+            "/recipes",
             "/market",
             "/manufacturers",
             "/shopping-lists",

@@ -8,20 +8,22 @@ import ChaoTitle from "./ChaoTitle";
 
 const ChaoCardBody: React.FC<ChaoCardBodyInterface> = ({
   id,
-  company,
+  title,
+  subTitle,
+  registeredId,
   setDeletesCompany,
 }) => {
   const navigate = useNavigate();
 
   const handleEditCompany = () => {
-    navigate("/createMarket", { state: { company } });
+    navigate("/createMarket", { state: { title } });
   };
 
   const handleExclude = async () => {
     try {
       const response = await axios.post(
         "http://localhost:3001/company/delete",
-        { id: company._id },
+        { id: registeredId },
       );
       if (response.status === 200) {
         setDeletesCompany((prev) => !prev);
@@ -45,10 +47,10 @@ const ChaoCardBody: React.FC<ChaoCardBodyInterface> = ({
           <ChaoTitle style={{ padding: "0px", margin: "0px" }}>{id}</ChaoTitle>
           <div className="d-flex flex-column">
             <ChaoText style={{ padding: "0px", margin: "0px" }}>
-              {company.nome_fantasia}
+              {title}
             </ChaoText>
             <ChaoSubtitle style={{ padding: "0px", margin: "0px" }}>
-              {company.cnpj}
+              {subTitle}
             </ChaoSubtitle>
           </div>
         </div>

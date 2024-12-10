@@ -9,6 +9,7 @@ const PeopleManager = () => {
         <ChaoMenu
           itens={[
             "Home",
+            "Receitas",
             "Mercados",
             "Fabricantes",
             "Lista de Compras",
@@ -18,6 +19,7 @@ const PeopleManager = () => {
           ]}
           routes={[
             "/hub",
+            "/recipes",
             "/market",
             "/manufacturers",
             "/shopping-lists",

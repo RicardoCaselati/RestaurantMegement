@@ -5,12 +5,12 @@ import ChaoMenu from "../components/ChaoMenu";
 import ChaoButton from "../components/ChaoButtom";
 import ChaoCardBody from "../components/ChaoCardBody";
 import axios from "axios";
-import { ManufacturersData } from "../interface/ManufacturersInterface";
+import { ManufacturersInterface } from "../interface/ManufacturersInterface";
 
 const ManufacturesManager = () => {
   const navigate = useNavigate();
   const [registeredManufacturers, setRegisteredManufacturers] = useState<
-    ManufacturersData[]
+    ManufacturersInterface[]
   >([]);
 
   const [deleteManufacturers, setDeleteManufacturers] = useState(false);
@@ -54,6 +54,7 @@ const ManufacturesManager = () => {
         <ChaoMenu
           itens={[
             "Home",
+            "Receitas",
             "Mercados",
             "Fabricantes",
             "Lista de Compras",
@@ -63,6 +64,7 @@ const ManufacturesManager = () => {
           ]}
           routes={[
             "/hub",
+            "/recipes",
             "/market",
             "/manufacturers",
             "/shopping-lists",
@@ -82,7 +84,9 @@ const ManufacturesManager = () => {
               <ChaoCardBody
                 key={index}
                 id={index + 1}
-                company={company}
+                title={company.nome_fantasia}
+                subTitle={company.cnpj}
+                registeredId={company._id}
                 setDeleteManufacturers={setDeleteManufacturers}
               />
             ))}

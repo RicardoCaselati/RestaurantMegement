@@ -10,59 +10,33 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ChaoDropdown from "../components/ChaoDropdown";
 import ChaoListItem from "../components/ChaoListItem";
 
-const CreateShoppingList = () => {
+const CreateRecipes = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
-  const [mercado, setMercado] = useState("");
-  const [dataCompra, setDataCompra] = useState("");
-  const [companiesList, setCompaniesList] = useState<
+  const [ingedientsList, setIngedientsList] = useState<
     { id: string; nome_fantasia: string }[]
   >([]);
-  const [manufacturersList, setManufacturersList] = useState<
-    { id: string; nome_fantasia: string }[]
-  >([]);
+
   const [items, setItems] = useState([
     {
-      fabricanteId: "",
-      nomeProduto: "",
-      quantidade: "",
-      valorUnidade: "",
-      valorTotal: "",
+      QuantidadeKg: "",
     },
   ]);
 
   const objSend = {
-    mercado,
-    data_compra: dataCompra,
-    items: items.map((item) => ({
-      ...item,
-      fabricanteId: item.fabricanteId,
-    })),
+    items,
   };
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDataCompra(e.target.value);
-  };
-
-  const handleItemChange = (index, field, value) => {
-    const updatedItems = items.map((item, i) =>
-      i === index ? { ...item, [field]: value } : item
-    );
-    setItems(updatedItems);
-  };
+  // const handleItemChange = (index, field, value) => {
+  //   const updatedItems = items.map((item, i) =>
+  //     i === index ? { ...item, [field]: value } : item
+  //   );
+  //   setItems(updatedItems);
+  // };
 
   const handleAdicionar = () => {
-    setItems([
-      ...items,
-      {
-        fabricanteId: "",
-        nomeProduto: "",
-        quantidade: "",
-        valorUnidade: "",
-        valorTotal: "",
-      },
-    ]);
+    setItems([...items, { QuantidadeKg: "" }]);
   };
 
   const handleSalvar = async () => {
@@ -70,7 +44,7 @@ const CreateShoppingList = () => {
     //   ? `http://localhost:3001/shopping-lists/update/${companyToEdit._id}`
     //   : "http://localhost:3001/shopping-lists/create";
 
-    const url = "http://localhost:3001/shopping-lists-ingredient/create";
+    const url = "http://localhost:3001/recipes/create";
 
     try {
       const response = await axios.post(url, objSend);
@@ -93,36 +67,20 @@ const CreateShoppingList = () => {
     navigate("/shopping-lists");
   };
 
-  const getCompanies = async () => {
+  const getIngredientsList = async () => {
     try {
-      const url = "http://localhost:3001/company/list";
+      const url = "http://localhost:3001/shopping-lists-ingredients/list";
       const response = await axios.get(url);
+      console.log("🚀 ~ getIngredientsList ~ response:", response);
       if (response.status === 200) {
-        const companies = response.data.map((eachItem) => ({
-          id: eachItem._id,
-          nomeItem: eachItem.nome_fantasia,
+        const ingredients = response.data.data.map((eachItem) => ({
+          id: eachItem.id,
+          nomeItem: eachItem.nomeProduto,
         }));
-        setCompaniesList(companies);
+        console.log("🚀 ~ ingredients ~ ingredients:", ingredients);
+        setIngedientsList(ingredients);
       } else {
-        console.log("Não foi possível listar os mercados.");
-      }
-    } catch (error) {
-      console.error("Erro inesperado:", error);
-    }
-  };
-
-  const getManufacturers = async () => {
-    try {
-      const url = "http://localhost:3001/manufacturers/list";
-      const response = await axios.get(url);
-      if (response.status === 200) {
-        const manufacturers = response.data.map((eachItem) => ({
-          id: eachItem._id,
-          nomeItem: eachItem.nome_fantasia,
-        }));
-        setManufacturersList(manufacturers);
-      } else {
-        console.log("Não foi possível listar os fabricantes.");
+        console.log("Não foi possível listar os ingredientes.");
       }
     } catch (error) {
       console.error("Erro inesperado:", error);
@@ -130,14 +88,13 @@ const CreateShoppingList = () => {
   };
 
   useEffect(() => {
-    getCompanies();
-    getManufacturers();
+    getIngredientsList();
   }, []);
 
-  const fabricanteDropdown = (index) => (
+  const dropdownMenuIngredients = (index) => (
     <ChaoDropdown
-      arrayList={manufacturersList}
-      onSelect={(id) => handleItemChange(index, "fabricanteId", id)}
+      arrayList={ingedientsList}
+      // onSelect={(id) => handleItemChange(index, id)}
       title="Selecione"
     />
   );
@@ -170,17 +127,17 @@ const CreateShoppingList = () => {
         />
         <div className="container" style={{ padding: "20px" }}>
           <div className={"col-lg-10"}>
-            <ChaoTitle>Cadastro de Lista de Compras</ChaoTitle>
-            <div className="d-flex justify-content-around">
-              <ChaoText>
+            <ChaoTitle>Cadastro de Receitas</ChaoTitle>
+            {/* <div className="d-flex justify-content-around"> */}
+            {/* <ChaoText>
                 Mercado:
                 <ChaoDropdown
                   arrayList={companiesList}
                   title="Selecione"
                   onSelect={setMercado}
                 />
-              </ChaoText>
-              <ChaoText>
+              </ChaoText> */}
+            {/* <ChaoText>
                 Data da Compra:
                 <ChaoInput
                   type="date"
@@ -190,28 +147,27 @@ const CreateShoppingList = () => {
                   value={dataCompra}
                   onChange={handleDateChange}
                 />
-              </ChaoText>
-            </div>
+              </ChaoText> */}
+            {/* </div> */}
           </div>
           <div className={"col-lg-10"} style={{ paddingTop: "15px" }}>
             <ChaoButton
-              text={"Adicionar Item"}
+              text={"Adicionar Ingrediente"}
               className={"btn-success"}
               onClick={handleAdicionar}
             />
           </div>
           <div className={"col-lg-10"}>
             {items.map((item, index) => {
-              const { fabricanteId, ...itemWithoutFabricante } = item;
               return (
                 <ChaoListItem
                   key={index}
-                  item={itemWithoutFabricante}
+                  item={item}
                   onChange={(field, value) =>
                     handleItemChange(index, field, value)
                   }
-                  dropdownMenuLabel="Fabricante:"
-                  fabricanteDropdown={fabricanteDropdown(index)}
+                  dropdownMenuLabel="Ingrediente:"
+                  dropdownMenu={dropdownMenuIngredients(index)}
                 />
               );
             })}
@@ -239,4 +195,4 @@ const CreateShoppingList = () => {
   );
 };
 
-export default CreateShoppingList;
+export default CreateRecipes;

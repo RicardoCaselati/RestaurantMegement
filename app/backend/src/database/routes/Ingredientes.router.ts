@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { createIngredientesController } from '../controller/Ingredientes.controller';
+import { createIngredientesController, getAllIngredienteController } from '../controller/Ingredientes.controller';
 
 const router = Router();
 
 router.post('/create', createIngredientesController);
 
-// router.get('/list', getAllEmpresasController);
+router.get('/list', getAllIngredienteController);
 
 // router.post('/edit', getAllEmpresasController);
 

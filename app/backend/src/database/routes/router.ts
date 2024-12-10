@@ -5,13 +5,14 @@ import manufacturersRouter from './Manufacturers.router';
 import peopleRouter from './User.router';
 import ingredientes from './Ingredientes.router';
 import shoppingLists from './ShoppingList.router';
+import recipes from './Recipes.routes';
 
 const routes = Router();
 
 // Rota de teste
-routes.get('/test', (req, res) => {
-    return res.status(200).json({ message: 'Sucesso' });
-});
+// routes.get('/test', (req, res) => {
+//     return res.status(200).json({ message: 'Sucesso' });
+// });
 
 // Rota Login
 routes.use('/login', loginRouter);
@@ -24,7 +25,12 @@ routes.use('/manufacturers', manufacturersRouter);
 
 // Rotas Shopping Lists (Lista de Compras)
 routes.use('/shopping-lists', shoppingLists);
-routes.use('/shopping-lists', ingredientes);
+
+// Rotas Ingredients
+routes.use('/shopping-lists-ingredients', ingredientes);
+
+// Rotas Recipes
+routes.use('/recipes', recipes);
 
 // Rotas User
 routes.use('/user', peopleRouter);

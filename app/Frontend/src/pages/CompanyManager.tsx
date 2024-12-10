@@ -53,6 +53,7 @@ const CompanyManager = () => {
         <ChaoMenu
           itens={[
             "Home",
+            "Receitas",
             "Mercados",
             "Fabricantes",
             "Lista de Compras",
@@ -62,6 +63,7 @@ const CompanyManager = () => {
           ]}
           routes={[
             "/hub",
+            "/recipes",
             "/market",
             "/manufacturers",
             "/shopping-lists",
@@ -81,7 +83,9 @@ const CompanyManager = () => {
               <ChaoCardBody
                 key={index}
                 id={index + 1}
-                company={company}
+                title={company.nome_fantasia}
+                subTitle={company.cnpj}
+                registeredId={company._id}
                 setDeletesCompany={setDeletesCompany}
               />
             ))}

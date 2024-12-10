@@ -10,6 +10,8 @@ import ManufacturesManager from "./pages/ManufacturersManager";
 import CreateManufacturesManager from "./components/CreateManufacturesMarket";
 import ShoppingList from "./pages/ShoppingList";
 import CreateShoppingList from "./pages/CreateShoppingList";
+import RecipesManager from "./pages/HubRecipes";
+import CreateRecipes from "./pages/CreateRecipes";
 
 // import "./styles/App.css";
 // import ChaoHeader from "./components/ChaoHeader";
@@ -19,6 +21,10 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/hub" element={<SystemHub />} />
+
+      <Route path="/recipes" element={<RecipesManager />} />
+      <Route path="/createRecipe" element={<CreateRecipes />} />
+
       <Route path="/stock" element={<StockManager />} />
       <Route path="/people" element={<PeopleManager />} />
       <Route path="/clients" element={<ClientManager />} />

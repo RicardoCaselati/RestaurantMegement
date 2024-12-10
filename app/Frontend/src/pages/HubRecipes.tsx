@@ -1,7 +1,16 @@
 import ChaoHeader from "../components/ChaoHeader";
 import ChaoMenu from "../components/ChaoMenu";
+import ChaoCardComponent from "../components/ChaoCardComponent";
+import ChaoButton from "../components/ChaoButtom";
+import { useNavigate } from "react-router-dom";
 
-const ClientManager = () => {
+const HubRecipes = () => {
+  const navigate = useNavigate();
+
+  const handleCreateRecipe = () => {
+    navigate("/createRecipe", { state: { company: null } });
+  };
+
   return (
     <>
       <ChaoHeader />
@@ -28,15 +37,19 @@ const ClientManager = () => {
             "/clients",
           ]}
         />
-        <div
-          className=" d-flex align-items-center justify-content-center"
-          style={{ width: "100%", padding: "10px" }}
-        >
-          <h2>Em Breve</h2>
+        <div className="container" style={{ padding: "10px" }}>
+          <ChaoButton
+            text={"Criar Receita"}
+            className={"btn-success"}
+            onClick={handleCreateRecipe}
+          />
+          <div style={{ padding: "10px" }}>
+            <ChaoCardComponent id={undefined} title={"Feijoada"} />
+          </div>
         </div>
       </div>
     </>
   );
 };
 
-export default ClientManager;
+export default HubRecipes;

@@ -5,6 +5,8 @@ import { AppDataSource } from "./data-source";
 import { EstoqueIngrediente } from "./database/model/Ingredientes.model";
 import mongoose from 'mongoose';
 
+import Pessoa from './database/model/User.model';
+
 import "reflect-metadata";
 
 class App {
@@ -41,6 +43,35 @@ class App {
       const mongoUri = process.env.MONGO_URI || 'mongodb://root:example@mongo:27017/mydatabase?authSource=admin';
       await mongoose.connect(mongoUri);
       console.log('Conectado ao MongoDB');
+
+      // Inserir usuário padrão após a conexão
+      // mongoose.connection.once('open', async () => {
+      //   console.log('Inicializando usuário padrão...');
+  
+        const defaultUser = {
+            cpf: '123.456.789-00',
+            nome: 'João da Silva',
+            email: "admin@admin.com",
+            data_nascimento: "1990-01-01",
+            endereco: {
+              logradouro: "Rua das Flores",
+              numero: 123,
+              complemento: "Apt 101",
+              bairro: "Centro"
+            },
+            telefone: "(11) 91234-5678",
+            funcao: "Administrador",
+            senha: "admin123"
+          };
+  
+        const existingUser = await Pessoa.findOne({ username: defaultUser.email });
+        if (!existingUser) {
+          await Pessoa.create(defaultUser);
+          console.log('Usuário padrão criado com sucesso!');
+        } else {
+          console.log('Usuário padrão já existe!');
+        }
+      // });
 
       // Iniciando o servidor Express
       this.app.listen(PORT, () => {

@@ -1,5 +1,5 @@
 export interface ChaoDropdownInterface {
-  arrayList: { id: string; nome_fantasia: string }[];
+  arrayList: { id: string; nomeItem: string }[];
   title: string;
   style?: React.CSSProperties;
   onSelect?: (id: string) => void;

@@ -5,15 +5,16 @@ import ChaoMenu from "../components/ChaoMenu";
 import { useEffect, useState } from "react";
 import ChaoCardBody from "../components/ChaoCardBody";
 import axios from "axios";
+import { ShoppingListInterface } from "../interface/ShoppingListInterface";
 
 const ShoppingList = () => {
-  const [registeredShoppingList, setRegisteredShoppingList] = useState([]);
+  const [registeredShoppingList, setRegisteredShoppingList] = useState<
+    ShoppingListInterface[]
+  >([]);
   const navigate = useNavigate();
 
   const handleCreateShoppingList = () => {
-    // navigate("/create-shopping-lists");
-    getShoppingList();
-    console.log("🚀 ~ handleCreateShoppingList ~ getShoppingList:")    
+    navigate("/create-shopping-lists");
   };
 
   const getShoppingList = async () => {
@@ -24,7 +25,7 @@ const ShoppingList = () => {
       if (response.status === 200) {
         console.log("Listas de Compra listadas com sucesso");
 
-        console.log("🚀 ~ getShoppingList ~ response.data:", response.data)
+        console.log("🚀 ~ getShoppingList ~ response.data:", response.data);
         setRegisteredShoppingList(response.data);
       } else {
         console.log("Não foi possível listar as Listas de Compra.");
@@ -52,6 +53,7 @@ const ShoppingList = () => {
         <ChaoMenu
           itens={[
             "Home",
+            "Receitas",
             "Mercados",
             "Fabricantes",
             "Lista de Compras",
@@ -61,6 +63,7 @@ const ShoppingList = () => {
           ]}
           routes={[
             "/hub",
+            "/recipes",
             "/market",
             "/manufacturers",
             "/shopping-lists",
@@ -81,7 +84,9 @@ const ShoppingList = () => {
               <ChaoCardBody
                 key={index}
                 id={index + 1}
-                company={registeredShoppingList}
+                registeredId={nomeMercado._id}
+                title={nomeMercado.nomeMercado}
+                subTitle={nomeMercado.dataCompra}
                 // setDeletesCompany={setDeletesCompany}
               />
             ))}

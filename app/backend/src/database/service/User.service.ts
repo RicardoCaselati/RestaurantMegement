@@ -1,4 +1,4 @@
-import Pessoa from '../model/User.model'; // Certifique-se de que o caminho está correto
+import Pessoa from '../model/User.model';
 import { PessoaData } from '../Interface/People.interface';
 
 const createUserService = async (userData: PessoaData) => {

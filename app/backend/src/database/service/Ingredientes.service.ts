@@ -1,6 +1,7 @@
 import { AppDataSource } from '../../data-source';
 import { EstoqueIngrediente } from "../model/Ingredientes.model";
 import { ShoppingList } from "../model/ShoppingList.model";
+const { MoreThan } = require('typeorm');
 
 interface ShoppingListItem {
     fabricanteId: string;
@@ -53,10 +54,30 @@ interface ShoppingListItem {
     }
   };
 
+  export const getAllIngredienteService = async () => {
+    try {
+      const estoqueIngredienteRepository = AppDataSource.getRepository(EstoqueIngrediente);
+      const ingredientes = await estoqueIngredienteRepository.find({
+        where: {
+          quantidade: MoreThan(1)
+        },
+        select: ['id', 'nomeProduto', 'quantidade', 'valorUnidade', 'valorTotal', 'unidade']
+      });
+  
+      return ingredientes;
+    } catch (error) {
+      console.error('Erro ao listar ingredientes:', error);
+      if (error instanceof Error) {
+        return { success: false, message: error.message };
+      }
+      return { success: false, message: 'Ocorreu um erro desconhecido ao listar ingredientes.' };
+    }
+  };
+
 
   module.exports = {
     createIngredienteService,
-    // getAllEmpresasController,
+    getAllIngredienteService,
     // getEmpresaByIdController,
     // updateEmpresaController,
     // deleteEmpresaController

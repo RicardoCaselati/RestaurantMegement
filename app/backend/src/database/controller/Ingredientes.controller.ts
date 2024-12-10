@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createIngredienteService } from '../service/Ingredientes.service'
+import { createIngredienteService, getAllIngredienteService } from '../service/Ingredientes.service'
 
 export const createIngredientesController = async (req: Request, res: Response) => {
     try {
@@ -28,10 +28,24 @@ export const createIngredientesController = async (req: Request, res: Response) 
   // }
 };
 
+export const getAllIngredienteController = async (req: Request, res: Response) => {
+  try {
+  const newShoppintList = await getAllIngredienteService();
+
+  // Retornar a resposta de sucesso com a empresa criada
+  return res.status(200).json({
+    message: 'Ingredientes listados com sucesso!',
+    data: newShoppintList
+  });
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro no servidor', error });
+  }
+};
+
 
 module.exports = {
     createIngredientesController,
-    // getAllEmpresasController,
+    getAllIngredienteController,
     // getEmpresaByIdController,
     // updateEmpresaController,
     // deleteEmpresaController

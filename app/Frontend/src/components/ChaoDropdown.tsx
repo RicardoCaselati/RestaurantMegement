@@ -9,8 +9,8 @@ const ChaoDropdown: React.FC<ChaoDropdownInterface> = ({
 }) => {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
-  const handleSelect = (item: { id: string; nome_fantasia: string }) => {
-    setSelectedItem(item.nome_fantasia);
+  const handleSelect = (item: { id: string; nomeItem: string }) => {
+    setSelectedItem(item.nomeItem);
     if (onSelect) {
       onSelect(item.id);
     }
@@ -28,7 +28,7 @@ const ChaoDropdown: React.FC<ChaoDropdownInterface> = ({
           type="button"
           onClick={() => handleSelect(eachList)}
         >
-          {eachList.nome_fantasia || "Item inválido"}
+          {eachList.nomeItem || "Item inválido"}
         </button>
       </li>
     ));
